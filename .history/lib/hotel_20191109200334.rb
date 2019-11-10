@@ -1,0 +1,44 @@
+require_relative "room"
+require "byebug"
+
+class Hotel
+    def initialize(name, rooms)
+        @name = name
+        debugger
+        rooms.each { |h, k|
+            @rooms[h] = Room.new(k)
+        }
+    end
+
+    def name
+        @name.capitalized
+    end
+
+    def rooms
+        @rooms
+    end
+
+    def room_exists?(room)
+       rooms.keys.include?(room) 
+    end
+
+    def check_in(person, room)
+        if room_exists?(room)
+            @rooms[room].add_occupant(person)
+        elsif room_exists?(room) && !@rooms[room].full?
+            p "sorry, room is full"
+        else
+            p "sorry, room does not exist"
+        end
+    end
+
+    def has_vacancy?
+        @rooms.any? { |(k, v)| !v.full? }
+    end
+
+    def list_rooms
+        @rooms.each { |k, v| 
+            p k + v 
+        }
+    end
+end
